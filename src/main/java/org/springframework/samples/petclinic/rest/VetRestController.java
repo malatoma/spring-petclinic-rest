@@ -112,6 +112,7 @@ public class VetRestController {
 		return new ResponseEntity<Vet>(currentVet, HttpStatus.NO_CONTENT);
 	}
 
+    //this is already insiide
     @PreAuthorize( "hasRole(@roles.VET_ADMIN)" )
 	@RequestMapping(value = "/{vetId}", method = RequestMethod.DELETE, produces = "application/json")
 	@Transactional

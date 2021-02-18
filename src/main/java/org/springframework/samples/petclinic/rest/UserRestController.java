@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,4 +56,9 @@ public class UserRestController {
         this.userService.saveUser(user);
         return new ResponseEntity<User>(user, headers, HttpStatus.CREATED);
     }
+    
+//    public ResponseEntity<void> deleteOwner(@PathVariable("username") String usename)
+//    {
+//    	
+//    }
 }
