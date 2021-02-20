@@ -16,6 +16,7 @@
 
 package org.springframework.samples.petclinic.rest;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -78,12 +80,15 @@ public class OwnerRestController {
 	@RequestMapping(value = "/{ownerId}", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<Owner> getOwner(@PathVariable("ownerId") int ownerId) {
 		Owner owner = null;
+		System.out.println("GET ONE OWNER");
 		owner = this.clinicService.findOwnerById(ownerId);
 		if (owner == null) {
 			return new ResponseEntity<Owner>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Owner>(owner, HttpStatus.OK);
 	}
+    
+    
 
     @PreAuthorize( "hasRole(@roles.OWNER_ADMIN)" )
 	@RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
@@ -136,6 +141,42 @@ public class OwnerRestController {
 		}
 		this.clinicService.deleteOwner(owner);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+    
+    @PreAuthorize(  "hasRole(@roles.OWNER_ADMIN)" )
+	@RequestMapping(value = "/{value}", method= RequestMethod.GET, produces= "application/json")
+	public ResponseEntity<Collection<Owner>> getSearchOwner(@PathVariable("value") String value)
+	{
+		if(value == null)
+		{
+			value="";
+		}
+		if (value!="")
+		{
+			Collection<Owner> allOwner = this.clinicService.findAllOwners();
+			Collection<Owner> owners = new ArrayList<>() ;
+			
+			if (!allOwner.isEmpty())
+			{
+				for (Owner owner : allOwner)
+				{
+					if(value.contains(owner.getFirstName())||
+								value.contains(owner.getLastName()))
+					{
+						owners.add(owner);
+					}
+					for(Pet pet : owner.getPets())
+					{
+						if( value.contains(pet.getName()) || value.equals(pet.getName()))
+						{
+							owners.add(owner);
+						}
+					}
+				  }
+			return new ResponseEntity<Collection<Owner>>(owners,HttpStatus.OK);
+			}	
+		}
+		return new ResponseEntity<Collection<Owner>>(HttpStatus.NOT_FOUND);
 	}
 
 }
