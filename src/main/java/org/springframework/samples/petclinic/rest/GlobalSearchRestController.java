@@ -26,7 +26,7 @@ public class GlobalSearchRestController
 		
 	 	@PreAuthorize(  "hasRole(@roles.OWNER_ADMIN)" )
 		@RequestMapping(value = "/{value}", method= RequestMethod.GET, produces= "application/json")
-		public ResponseEntity<Collection<Owner>> getSearchOwner(@PathVariable("value") String value)
+		public ResponseEntity<Collection<Owner>> getSearchResult(@PathVariable("value") String value)
 		{
 			if(value == null)
 			{
