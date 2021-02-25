@@ -24,6 +24,7 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.model.Vet;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -68,6 +69,17 @@ public class JacksonCustomVisitSerializer extends StdSerializer<Visit> {
 		}
 		jgen.writeStringField("name", pet.getName());
 		jgen.writeStringField("birthDate", formatter.format(pet.getBirthDate()));
+		
+		
+		Vet vet = visit.getVet();
+		jgen.writeObjectFieldStart("vet");
+		if (pet.getId() == null) {
+			jgen.writeNullField("id");
+		} else {
+			jgen.writeNumberField("id", vet.getId());
+		}
+		jgen.writeStringField("firstName", vet.getFirstName());
+		jgen.writeStringField("lastName", vet.getLastName());
 
 		PetType petType = pet.getType();
 		jgen.writeObjectFieldStart("type");
@@ -78,6 +90,9 @@ public class JacksonCustomVisitSerializer extends StdSerializer<Visit> {
 		}
 		jgen.writeStringField("name", petType.getName());
 		jgen.writeEndObject(); // type
+		
+		
+
 
 		Owner owner = pet.getOwner();
 		jgen.writeObjectFieldStart("owner");
@@ -93,6 +108,7 @@ public class JacksonCustomVisitSerializer extends StdSerializer<Visit> {
 		jgen.writeStringField("telephone", owner.getTelephone());
 		jgen.writeEndObject(); // owner
 		jgen.writeEndObject(); // pet
+		jgen.writeEndObject(); // visit
 		jgen.writeEndObject(); // visit
 	}
 

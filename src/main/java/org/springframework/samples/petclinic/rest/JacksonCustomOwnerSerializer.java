@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Visit;
 
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -94,6 +95,7 @@ public class JacksonCustomOwnerSerializer extends StdSerializer<Owner> {
 				jgen.writeStringField("date", formatter.format(visit.getDate()));
 				jgen.writeStringField("description", visit.getDescription());
 				jgen.writeNumberField("pet", visit.getPet().getId());
+				jgen.writeNumberField("vet", visit.getVet().getId());
 				jgen.writeEndObject(); // visit
 			}
 			jgen.writeEndArray(); // visits

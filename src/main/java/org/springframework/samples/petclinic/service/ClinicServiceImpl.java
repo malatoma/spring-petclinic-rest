@@ -48,6 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class ClinicServiceImpl implements ClinicService {
 
+
     private PetRepository petRepository;
     private VetRepository vetRepository;
     private OwnerRepository ownerRepository;
@@ -284,6 +285,8 @@ public class ClinicServiceImpl implements ClinicService {
 	public Collection<Visit> findVisitsByPetId(int petId) {
 		return visitRepository.findByPetId(petId);
 	}
+	
+	
 	
 	
 
