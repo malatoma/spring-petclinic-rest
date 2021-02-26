@@ -104,6 +104,7 @@ public class VisitRestController {
 		}
 		currentVisit.setDate(visit.getDate());
 		currentVisit.setDescription(visit.getDescription());
+		currentVisit.setVet(visit.getVet());
 		currentVisit.setPet(visit.getPet());
 		this.clinicService.saveVisit(currentVisit);
 		return new ResponseEntity<Visit>(currentVisit, HttpStatus.NO_CONTENT);
