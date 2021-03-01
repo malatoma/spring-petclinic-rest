@@ -59,5 +59,4 @@ public class GlobalSearchRestController
 			}
 			return new ResponseEntity<Collection<Owner>>(HttpStatus.NOT_FOUND);
 		}
-
 }
